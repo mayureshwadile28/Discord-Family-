@@ -117,12 +117,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 800);
   };
 
+  let lastSparkleTime = 0;
+  const throttleSparkle = (x, y) => {
+    const now = Date.now();
+    if (now - lastSparkleTime > 40) { // Throttle to max 25 per second to fix FPS drop
+      createSparkle(x, y);
+      lastSparkleTime = now;
+    }
+  };
+
   // Mobile Touch Trail
   document.addEventListener('touchmove', (e) => {
     for (let i = 0; i < e.touches.length; i++) {
-      if (Math.random() > 0.3) { // 70% chance to spawn to keep it smooth
-        createSparkle(e.touches[i].clientX, e.touches[i].clientY);
-      }
+      throttleSparkle(e.touches[i].clientX, e.touches[i].clientY);
     }
   }, { passive: true });
 
@@ -139,8 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
     createSparkle(e.clientX, e.clientY);
   });
   document.addEventListener('mousemove', (e) => {
-    if (isMouseDown && Math.random() > 0.3) {
-      createSparkle(e.clientX, e.clientY);
+    if (isMouseDown) {
+      throttleSparkle(e.clientX, e.clientY);
     }
   });
   document.addEventListener('mouseup', () => { isMouseDown = false; });

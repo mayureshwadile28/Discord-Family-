@@ -22,6 +22,8 @@ body {
   opacity: 0.5;
   animation: float 10s infinite alternate ease-in-out;
   transition: background 1.5s ease;
+  will-change: transform, background;
+  transform: translateZ(0);
 }
 .orb-1 {
   width: 50vw;
@@ -40,8 +42,8 @@ body {
 }
 
 @keyframes float {
-  0% { transform: translateY(0px) scale(1); }
-  100% { transform: translateY(80px) scale(1.1); }
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(0, 80px, 0) scale(1.1); }
 }
 
 /* Typography */
@@ -178,9 +180,10 @@ em {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   border-left: 1px solid rgba(255, 255, 255, 0.3);
-  transform: translateY(0);
+  transform: translateZ(0);
   transition: transform 0.5s ease, box-shadow 0.5s ease;
   position: relative; /* Crucial for absolute discord messages */
+  will-change: transform;
 }
 
 .content-box:hover {
@@ -272,14 +275,15 @@ em {
   box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
   z-index: 10;
   opacity: 0; /* Handled by intersection observer visible class */
-  transform: rotate(4deg) translateY(40px); /* Initial state */
+  transform: rotate(4deg) translate3d(0, 40px, 0); /* Initial state */
+  will-change: transform, opacity;
 }
 
 /* Alternate positioning to make them look organic */
 .section:nth-child(even) .discord-message {
   right: auto;
   left: -40px;
-  transform: rotate(-4deg) translateY(40px);
+  transform: rotate(-4deg) translate3d(0, 40px, 0);
 }
 
 .discord-message.visible {
@@ -291,13 +295,13 @@ em {
 }
 
 @keyframes float-discord {
-  0% { transform: translateY(0) rotate(4deg); }
-  100% { transform: translateY(-15px) rotate(6deg); }
+  0% { transform: translate3d(0, 0, 0) rotate(4deg); }
+  100% { transform: translate3d(0, -15px, 0) rotate(6deg); }
 }
 
 @keyframes float-discord-alt {
-  0% { transform: translateY(0) rotate(-4deg); }
-  100% { transform: translateY(-15px) rotate(-6deg); }
+  0% { transform: translate3d(0, 0, 0) rotate(-4deg); }
+  100% { transform: translate3d(0, -15px, 0) rotate(-6deg); }
 }
 
 
@@ -549,8 +553,8 @@ p.fade-in { transition-delay: 0.2s; }
   }
   
   @keyframes float-discord-mobile {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-8px); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(0, -8px, 0); }
   }
 
   .discord-message { padding: 12px; }
